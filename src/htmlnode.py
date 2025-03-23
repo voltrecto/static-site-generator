@@ -38,8 +38,13 @@ class ParentNode(HTMLNode):
             raise ValueError("No tag")
         if self.children is None:
             raise ValueError("No children")
-        html = ""
+        
+        html = f"<{self.tag}{self.props_to_html()}>"
+        
+        # Add all children
         for child in self.children:
-            html += f"<{self.tag}{self.props_to_html()}>{child.to_html()}</{self.tag}>"
+            html += child.to_html()
+        
+        html += f"</{self.tag}>"
+        
         return html
-
