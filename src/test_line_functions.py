@@ -1,8 +1,8 @@
 import unittest
-from split_delimiter import *
+from line_functions import *
 from textnode import TextNode, TextType
 
-class TestDelimiter(unittest.TestCase):
+class TestLineFunctions(unittest.TestCase):
     def test_simple(self):
         node = TextNode("This is text with a `code block` word", TextType.TEXT)
         new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
@@ -99,7 +99,6 @@ class TestDelimiter(unittest.TestCase):
             ],
             new_nodes,
         )
-    
 
 if __name__ == "__main__":
     unittest.main()
