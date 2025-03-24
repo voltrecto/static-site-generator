@@ -34,6 +34,6 @@ def text_node_to_html_node(text_node):
         case text_node.text_type.LINK:
             return LeafNode("a", text_node.text, {"href": text_node.url})
         case text_node.text_type.IMAGE:
-            return LeafNode("img", None, {"src": text_node.url, "alt": text_node.text})
+            return LeafNode("img", "", {"src": text_node.url, "alt": text_node.text})
         case _:
             raise Exception(f"Invalid text type: {text_node.text_type}")
