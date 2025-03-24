@@ -2,6 +2,9 @@ from textnode import TextNode, TextType
 import os
 import shutil
 from utils import generate_page
+import sys
+
+basepath = sys.argv[1] if len(sys.argv) > 1 else '/'
 
 def copy_static(source, destination):
     if os.path.exists(destination):
@@ -18,7 +21,7 @@ def copy_static(source, destination):
         else:
             copy_static(source_path, destination_path)
 
-def generate_all_markdown(source_dir, destination_dir, template_path):
+def generate_all_markdown(source_dir, destination_dir, template_path, basepath):
     for root, dirs, files in os.walk(source_dir):
         for file in files:
             if file.endswith(".md"):
@@ -31,16 +34,17 @@ def generate_all_markdown(source_dir, destination_dir, template_path):
                 
                 print(f"Generating HTML for: {from_path}")
                 print(f"Output file: {dest_path}")
-                generate_page(from_path=from_path, template_path=template_path, dest_path=dest_path)
+                generate_page(from_path=from_path, template_path=template_path, dest_path=dest_path, basepath=basepath)
 
 
 def main():
     print("Starting static site generation...")
-    if os.path.exists("public"):
-        shutil.rmtree("public")
-    os.makedirs("public", exist_ok=True)
-    copy_static("static", "public")
-    generate_all_markdown(source_dir="content", destination_dir="public", template_path="template.html")
+    destination_dir = "docs"
+    if os.path.exists(destination_dir):
+        shutil.rmtree(destination_dir)
+    os.makedirs(destination_dir, exist_ok=True)
+    copy_static("static", destination_dir)
+    generate_all_markdown(source_dir="content", destination_dir=destination_dir, template_path="template.html", basepath=basepath)
     print("Static site generation complete.")
 
 if __name__ == "__main__":
